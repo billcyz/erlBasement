@@ -21,6 +21,17 @@ detect_distance(NumA, NumB) ->
 	ListA = binary_to_list(BinA),
 	ListB = binary_to_list(BinB),
 	
-	check_distance(ListA, ListB, 0).
+	io:format("NumA binary is ~p~n", [ListA]),
+	io:format("NumB binary is ~p~n", [ListB]),
+	
+	check_distance(ListA, ListB, 1, []).
 
-check_distance() -> 1.
+check_distance([], _, _, RL) -> RL;
+check_distance(_, [], _, RL) -> RL;
+check_distance([AH|AT], [BA|BT], ListPosition, RL) ->
+	if
+		AH =:= BA -> check_distance(AT, BT, ListPosition + 1, RL);
+		true -> 
+			io:format("~p~n", [ListPosition]),
+			check_distance(AT, BT, ListPosition + 1, RL ++ [ListPosition])
+	end.
